@@ -254,7 +254,6 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         try {
           caj.edoCuenta(us);
           int n = JOptionPane.showConfirmDialog(null, "El estado de cuenta se guardó\nQuieres abrir el archivo? ","Abrir archivo?",JOptionPane.YES_NO_OPTION);
-
           File file = new File (PATH+"Estado de cuenta de_"+us.getNombre()+".txt");
            if(file.exists()){ 
            if (n==JOptionPane.YES_OPTION) {
@@ -280,13 +279,15 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         String depositarMostrar = (String) JOptionPane.showInputDialog(null, "Introduce el monto a depositar",
             "Depositar Dinero", JOptionPane.INFORMATION_MESSAGE,icon,null,"");
         float saldoLocal;
-        
+        char car[]=depositarMostrar.toCharArray();
         if(depositarMostrar==null){       
         }else if(depositarMostrar.contains(".")){     
             JOptionPane.showMessageDialog(null, "No puedes depositar centavos","Alerta",JOptionPane.WARNING_MESSAGE);
+        }else if(ceros(car)){
+            JOptionPane.showMessageDialog(null, "No puedes depositar 0 pesos","Alerta",JOptionPane.WARNING_MESSAGE);
         }else{
         try{
-        saldoLocal = Float.parseFloat(depositarMostrar);
+            saldoLocal = Float.parseFloat(depositarMostrar);
             if(saldoLocal<=8000&&saldoLocal>=1){
                 us.setSaldo(us.getSaldo()+saldoLocal);
                 //caj.depositar(saldoLocal);
@@ -305,22 +306,23 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         String retirarMostrar = (String) JOptionPane.showInputDialog(null, "Introduce el monto a retirar",
             "Retirar Dinero", JOptionPane.INFORMATION_MESSAGE,icon,null,"");
         float saldoLocal;
-        boolean ceros=false;
+        saldoLocal = Float.parseFloat(retirarMostrar);
         char car[]=retirarMostrar.toCharArray();
         if(retirarMostrar==null){       
         }else if(retirarMostrar.contains(".")){
             JOptionPane.showMessageDialog(null, "No puedes retirar centavos","Alerta",JOptionPane.WARNING_MESSAGE);
         }else if(ceros(car)){
             JOptionPane.showMessageDialog(null, "No puedes retirar 0 pesos","Alerta",JOptionPane.WARNING_MESSAGE);
+        }else if(saldoLocal<0){
+            JOptionPane.showMessageDialog(null, "No puedes retirar negativos","Alerta",JOptionPane.WARNING_MESSAGE);
         }else{
             try{
-                saldoLocal = Float.parseFloat(retirarMostrar);
                 if(saldoLocal<=8000&&saldoLocal>=1 && (us.getSaldo()-saldoLocal)>=0){
                 us.setSaldo(us.getSaldo()-saldoLocal);
                 //caj.retirar(saldoLocal);
                 JOptionPane.showMessageDialog(null, "Nuevo saldo: "+us.getSaldo(),"AVISO",JOptionPane.WARNING_MESSAGE);
                 }else{
-                JOptionPane.showMessageDialog(null, "No cuentas con saldo suficiente","Alerta",JOptionPane.WARNING_MESSAGE);
+                    JOptionPane.showMessageDialog(null, "No cuentas con saldo suficiente","Alerta",JOptionPane.WARNING_MESSAGE);
                 }
                 }catch(NumberFormatException e){
                 JOptionPane.showMessageDialog(null, "Ingresa solo numeros","Alerta",JOptionPane.WARNING_MESSAGE);
