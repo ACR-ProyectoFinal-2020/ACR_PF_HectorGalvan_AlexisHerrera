@@ -309,19 +309,21 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         if(retirarMostrar==null){       
         }else if(retirarMostrar.contains(".")){
             JOptionPane.showMessageDialog(null, "No puedes retirar centavos","Alerta",JOptionPane.WARNING_MESSAGE);
+        }else if("0".equals(retirarMostrar)){
+            JOptionPane.showMessageDialog(null, "No puedes retirar 0 pesos","Alerta",JOptionPane.WARNING_MESSAGE);
         }else{
-        try{
-            saldoLocal = Float.parseFloat(retirarMostrar);
-            if(saldoLocal<=8000&&saldoLocal>=1 && (us.getSaldo()-saldoLocal)>=0){
+            try{
+                saldoLocal = Float.parseFloat(retirarMostrar);
+                if(saldoLocal<=8000&&saldoLocal>=1 && (us.getSaldo()-saldoLocal)>=0){
                 us.setSaldo(us.getSaldo()-saldoLocal);
                 //caj.retirar(saldoLocal);
                 JOptionPane.showMessageDialog(null, "Nuevo saldo: "+us.getSaldo(),"AVISO",JOptionPane.WARNING_MESSAGE);
-            }else{
+                }else{
                 JOptionPane.showMessageDialog(null, "No cuentas con saldo suficiente","Alerta",JOptionPane.WARNING_MESSAGE);
-            }
-        }catch(NumberFormatException e){
-          JOptionPane.showMessageDialog(null, "Ingresa solo numeros","Alerta",JOptionPane.WARNING_MESSAGE);
-        }
+                }
+                }catch(NumberFormatException e){
+                JOptionPane.showMessageDialog(null, "Ingresa solo numeros","Alerta",JOptionPane.WARNING_MESSAGE);
+               }
         }
     }//GEN-LAST:event_retirarActionPerformed
 
