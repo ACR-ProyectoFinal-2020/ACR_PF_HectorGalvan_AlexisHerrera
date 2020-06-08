@@ -1,4 +1,4 @@
-12345678,1234,2049.58,Jefferson Gutierritos
+12345678,1234,1048.5801,Jefferson Gutierritos
 69305858,5093,12167.98,Benedicta Shanklin
 53210501,9939,6657.26,Solinus Toussaint
 10305841,4107,9866.56,Shin Milliken
@@ -20,3 +20,4 @@
 30210333,1886,1589.94,Calista Obregon
 49305809,3160,10.88,Elly Billingsley
 87654321,1234,1500.0,Hector Galvan
+88888889,1234,8500.0,Alexis Herrera

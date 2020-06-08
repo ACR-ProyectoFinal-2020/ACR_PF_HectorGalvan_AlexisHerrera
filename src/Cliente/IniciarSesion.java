@@ -352,7 +352,7 @@ public class IniciarSesion extends javax.swing.JFrame {
     }//GEN-LAST:event_ncuentaKeyTyped
 
     private void salirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_salirActionPerformed
-         System.exit(0);
+         this.dispose();
     }//GEN-LAST:event_salirActionPerformed
 
     /**

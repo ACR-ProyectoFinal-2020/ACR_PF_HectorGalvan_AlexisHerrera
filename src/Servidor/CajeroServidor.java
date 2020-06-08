@@ -29,7 +29,7 @@ public class CajeroServidor extends UnicastRemoteObject implements Cajero, Runna
     private ArrayList<Usuario> database;
     private static final String PATH = "Estados_de_cuenta/";
     private Usuario user;
-    
+    Registry registry;
     public CajeroServidor() throws RemoteException{
         database=new ArrayList<>();
         cargarDatos();
@@ -159,7 +159,8 @@ public class CajeroServidor extends UnicastRemoteObject implements Cajero, Runna
         try{
             String dirIP=(InetAddress.getLocalHost()).toString();
             System.out.println("Escuchando en.."+dirIP+":"+puerto);
-            Registry registry = LocateRegistry.createRegistry(puerto);
+            
+            registry = LocateRegistry.createRegistry(puerto);
             registry.bind("servidor", (Cajero) this);
         }catch(UnknownHostException | AlreadyBoundException | RemoteException e){
             e.printStackTrace();

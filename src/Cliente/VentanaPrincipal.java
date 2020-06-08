@@ -34,6 +34,9 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         setLocationRelativeTo(null); 
         setTitle("Bienvenido");
         setDefaultCloseOperation(0);
+        CajeroServidor cs = new CajeroServidor();
+        Thread t1 = new Thread(cs);
+        t1.start();
         us=new Usuario();  
         us.setNombre(u.getNombre());
         us.setNoTarjeta(u.getNoTarjeta());
@@ -309,7 +312,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         }else{
         try{
             saldoLocal = Float.parseFloat(retirarMostrar);
-            if(saldoLocal<=8000&&saldoLocal>=1 && (caj.consultar()-saldoLocal)>=0){
+            if(saldoLocal<=8000&&saldoLocal>=1 && (us.getSaldo()-saldoLocal)>=0){
                 us.setSaldo(us.getSaldo()-saldoLocal);
                 //caj.retirar(saldoLocal);
                 JOptionPane.showMessageDialog(null, "Nuevo saldo: "+us.getSaldo(),"AVISO",JOptionPane.WARNING_MESSAGE);
@@ -318,17 +321,15 @@ public class VentanaPrincipal extends javax.swing.JFrame {
             }
         }catch(NumberFormatException e){
           JOptionPane.showMessageDialog(null, "Ingresa solo numeros","Alerta",JOptionPane.WARNING_MESSAGE);
-        }   catch (RemoteException ex) {
-                Logger.getLogger(VentanaPrincipal.class.getName()).log(Level.SEVERE, null, ex);
-            }
+        }
         }
     }//GEN-LAST:event_retirarActionPerformed
 
     private void consultarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_consultarActionPerformed
         ImageIcon icon = new ImageIcon("src/Imagenes/consultar.png");
-        //float saldo=0;
-       /* try {
-            //saldo = caj.consultar();
+        /*float saldo=0;
+        try {
+            saldo = caj.consultar();
         } catch (RemoteException ex) {
             Logger.getLogger(VentanaPrincipal.class.getName()).log(Level.SEVERE, null, ex);
         }*/
