@@ -135,13 +135,13 @@ public class CajeroServidor extends UnicastRemoteObject implements Cajero, Runna
     }
 
     @Override
-    public boolean edoCuenta() throws RemoteException {
-        File file = new File(PATH+"Estado de cuenta de_"+user.getNombre()+".txt");
+    public boolean edoCuenta(Usuario usr) throws RemoteException {
+        File file = new File(PATH+"Estado de cuenta de_"+usr.getNombre()+".txt");
         PrintWriter salida = null;
         
         try {
-            salida = new PrintWriter(new BufferedWriter(new FileWriter(PATH+"Estado de cuenta de_"+user.getNombre()+".txt")));
-            salida.println("El saldo de "+user.getNombre()+" es: "+ user.getSaldo());
+            salida = new PrintWriter(new BufferedWriter(new FileWriter(PATH+"Estado de cuenta de_"+usr.getNombre()+".txt")));
+            salida.println("El saldo de "+usr.getNombre()+" es: "+ usr.getSaldo());
             salida.close();
         } catch (IOException e) {System.out.println(e.getMessage());} finally {
             salida.close();

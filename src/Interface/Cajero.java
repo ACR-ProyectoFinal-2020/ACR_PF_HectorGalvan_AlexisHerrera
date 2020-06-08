@@ -20,7 +20,7 @@ public interface Cajero extends Remote{
 
     public boolean registrar(Usuario u) throws RemoteException;
     
-    public boolean edoCuenta() throws RemoteException; 
+    public boolean edoCuenta(Usuario u) throws RemoteException; 
     
     public boolean ingresar(int cuenta, int nip) throws RemoteException; 
     

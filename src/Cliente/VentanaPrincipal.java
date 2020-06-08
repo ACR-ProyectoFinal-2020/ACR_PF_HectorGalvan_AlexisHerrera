@@ -80,7 +80,6 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         cliente.setBackground(new java.awt.Color(33, 45, 62));
         cliente.setFont(new java.awt.Font("Baskerville Old Face", 3, 26)); // NOI18N
         cliente.setForeground(new java.awt.Color(255, 255, 255));
-        cliente.setText("Alexis Herrera Saucedo");
         cliente.setBorder(null);
 
         jPanel2.setBackground(new java.awt.Color(88, 59, 94));
@@ -238,8 +237,8 @@ public class VentanaPrincipal extends javax.swing.JFrame {
 
     private void salirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_salirActionPerformed
         try{
-        JOptionPane.showMessageDialog(null, "Saldo restante: "+caj.consultar()+"\nQue tenga un buen día");
-        IniciarSesion obj = new IniciarSesion(caj.devolverUsuario());
+        JOptionPane.showMessageDialog(null, "Saldo restante: "+us.getSaldo()+"\nQue tenga un buen día");
+        IniciarSesion obj = new IniciarSesion(us);
         obj.setVisible(true);
         dispose();
         }catch(RemoteException | NotBoundException ex){
@@ -250,7 +249,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
     private void estadoDeCuentaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_estadoDeCuentaActionPerformed
         ImageIcon icon = new ImageIcon("src/Imagenes/cuenta.png");
         try {
-          caj.edoCuenta();
+          caj.edoCuenta(us);
           int n = JOptionPane.showConfirmDialog(null, "El estado de cuenta se guardó\nQuieres abrir el archivo? ","Abrir archivo?",JOptionPane.YES_NO_OPTION);
 
           File file = new File (PATH+"Estado de cuenta de_"+us.getNombre()+".txt");
@@ -286,16 +285,15 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         try{
         saldoLocal = Float.parseFloat(depositarMostrar);
             if(saldoLocal<=8000&&saldoLocal>=1){
-                us.setSaldo(us.getSaldo()+saldoLocal);caj.depositar(saldoLocal);
-                JOptionPane.showMessageDialog(null, "Nuevo saldo: "+caj.consultar(),"AVISO",JOptionPane.WARNING_MESSAGE);
+                us.setSaldo(us.getSaldo()+saldoLocal);
+                //caj.depositar(saldoLocal);
+                JOptionPane.showMessageDialog(null, "Nuevo saldo: "+us.getSaldo(),"AVISO",JOptionPane.WARNING_MESSAGE);
             }else{
                 JOptionPane.showMessageDialog(null, "Deposita cantidades menores a $8000\n y mayores a cero","Alerta",JOptionPane.WARNING_MESSAGE);
             }
         }catch(NumberFormatException e){
           JOptionPane.showMessageDialog(null, "Ingresa solo numeros","Alerta",JOptionPane.WARNING_MESSAGE);
-        }catch (RemoteException ex) {  
-                Logger.getLogger(VentanaPrincipal.class.getName()).log(Level.SEVERE, null, ex);
-            }  
+        }  
         }
     }//GEN-LAST:event_depositarActionPerformed
 
@@ -313,8 +311,8 @@ public class VentanaPrincipal extends javax.swing.JFrame {
             saldoLocal = Float.parseFloat(retirarMostrar);
             if(saldoLocal<=8000&&saldoLocal>=1 && (caj.consultar()-saldoLocal)>=0){
                 us.setSaldo(us.getSaldo()-saldoLocal);
-                caj.retirar(saldoLocal);
-                JOptionPane.showMessageDialog(null, "Nuevo saldo: "+caj.consultar(),"AVISO",JOptionPane.WARNING_MESSAGE);
+                //caj.retirar(saldoLocal);
+                JOptionPane.showMessageDialog(null, "Nuevo saldo: "+us.getSaldo(),"AVISO",JOptionPane.WARNING_MESSAGE);
             }else{
                 JOptionPane.showMessageDialog(null, "No cuentas con saldo suficiente","Alerta",JOptionPane.WARNING_MESSAGE);
             }
@@ -328,13 +326,13 @@ public class VentanaPrincipal extends javax.swing.JFrame {
 
     private void consultarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_consultarActionPerformed
         ImageIcon icon = new ImageIcon("src/Imagenes/consultar.png");
-        float saldo=0;
-        try {
-            saldo = caj.consultar();
+        //float saldo=0;
+       /* try {
+            //saldo = caj.consultar();
         } catch (RemoteException ex) {
             Logger.getLogger(VentanaPrincipal.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        JOptionPane.showMessageDialog(null, "Tu saldo es: "+saldo,"Saldo disponible",JOptionPane.DEFAULT_OPTION, icon);
+        }*/
+        JOptionPane.showMessageDialog(null, "Tu saldo es: "+us.getSaldo(),"Saldo disponible",JOptionPane.DEFAULT_OPTION, icon);
     }//GEN-LAST:event_consultarActionPerformed
 
     /**
