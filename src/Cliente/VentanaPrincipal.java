@@ -314,13 +314,15 @@ public class VentanaPrincipal extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "No puedes retirar 0 pesos","Alerta",JOptionPane.WARNING_MESSAGE);
         }else if(saldoLocal<0){
             JOptionPane.showMessageDialog(null, "No puedes retirar negativos","Alerta",JOptionPane.WARNING_MESSAGE);
-        }else{
-            try{
-                if(saldoLocal<=8000&&saldoLocal>=1 && (caj.consultar(us)-saldoLocal)>=0){
-                caj.retirar(saldoLocal,us);
-                JOptionPane.showMessageDialog(null, "Nuevo saldo: "+caj.consultar(us),"AVISO",JOptionPane.WARNING_MESSAGE);
+        }else if(saldoLocal>8000){
+            JOptionPane.showMessageDialog(null, "No puedes retirar mas de $8000","Alerta",JOptionPane.WARNING_MESSAGE); 
+        }else if(saldoLocal<=8000&&saldoLocal>=1) {
+            try{        
+                if((caj.consultar(us)-saldoLocal)>=0){
+                    caj.retirar(saldoLocal,us);
+                    JOptionPane.showMessageDialog(null, "Nuevo saldo: "+caj.consultar(us),"AVISO",JOptionPane.WARNING_MESSAGE);
                 }else{
-                    JOptionPane.showMessageDialog(null, "No cuentas con saldo suficiente","Alerta",JOptionPane.WARNING_MESSAGE);
+                   JOptionPane.showMessageDialog(null, "No cuentas con saldo suficiente","Alerta",JOptionPane.WARNING_MESSAGE);     
                 }
                 }catch(NumberFormatException e){
                 JOptionPane.showMessageDialog(null, "Ingresa solo numeros","Alerta",JOptionPane.WARNING_MESSAGE);
