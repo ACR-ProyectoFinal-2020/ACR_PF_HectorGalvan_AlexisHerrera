@@ -305,11 +305,12 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         String retirarMostrar = (String) JOptionPane.showInputDialog(null, "Introduce el monto a retirar",
             "Retirar Dinero", JOptionPane.INFORMATION_MESSAGE,icon,null,"");
         float saldoLocal;
-        
+        boolean ceros=false;
+        char car[]=retirarMostrar.toCharArray();
         if(retirarMostrar==null){       
         }else if(retirarMostrar.contains(".")){
             JOptionPane.showMessageDialog(null, "No puedes retirar centavos","Alerta",JOptionPane.WARNING_MESSAGE);
-        }else if("0".equals(retirarMostrar)){
+        }else if(ceros(car)){
             JOptionPane.showMessageDialog(null, "No puedes retirar 0 pesos","Alerta",JOptionPane.WARNING_MESSAGE);
         }else{
             try{
@@ -337,7 +338,18 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         }*/
         JOptionPane.showMessageDialog(null, "Tu saldo es: "+us.getSaldo(),"Saldo disponible",JOptionPane.DEFAULT_OPTION, icon);
     }//GEN-LAST:event_consultarActionPerformed
-
+    public boolean ceros(char caracteres[]){
+        boolean ceros = false;
+        for(int i=0; i<caracteres.length;i++){
+                if(caracteres[i]=='0'){
+                    ceros=true;
+                }else{
+                    ceros=false;
+                    break;
+                }
+        }    
+            return ceros;
+    }
     /**
      * @param args the command line arguments
      */
