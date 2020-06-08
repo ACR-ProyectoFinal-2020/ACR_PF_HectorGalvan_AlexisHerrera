@@ -12,11 +12,11 @@ import java.rmi.RemoteException;
 
 public interface Cajero extends Remote{
     
-    public void depositar(float cantidad) throws RemoteException;
+    public void depositar(float cantidad,Usuario u) throws RemoteException;
     
-    public void retirar(float cantidad) throws RemoteException;
+    public void retirar(float cantidad,Usuario u) throws RemoteException;
     
-    public float consultar() throws RemoteException;
+    public float consultar(Usuario u) throws RemoteException;
 
     public boolean registrar(Usuario u) throws RemoteException;
     

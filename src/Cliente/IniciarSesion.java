@@ -7,7 +7,6 @@ Fecha: 13/06/2020
 package Cliente;
 
 import Interface.Cajero;
-import Servidor.CajeroServidor;
 import Servidor.Usuario;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
@@ -25,9 +24,6 @@ public class IniciarSesion extends javax.swing.JFrame {
     Registry registry = LocateRegistry.getRegistry(serverAddress,serverPort);
         
     public IniciarSesion() throws RemoteException, NotBoundException {
-        CajeroServidor cs = new CajeroServidor();
-        Thread t1 = new Thread(cs);
-        t1.start();
         initComponents();
         setLocationRelativeTo(null); 
         setTitle("Cajero");
@@ -44,9 +40,6 @@ public class IniciarSesion extends javax.swing.JFrame {
         usr=new Usuario(u.getNombre(),u.getNoTarjeta(),u.getNip(),u.getSaldo());
         setDefaultCloseOperation(0);       
         caj.modificarDatabase(u);
-        CajeroServidor cs = new CajeroServidor();
-        Thread t1 = new Thread(cs);
-        t1.start();
     }
     
     public IniciarSesion(boolean b) throws RemoteException, NotBoundException{
@@ -57,9 +50,6 @@ public class IniciarSesion extends javax.swing.JFrame {
         caj=(Cajero)(registry.lookup("servidor"));  
         setDefaultCloseOperation(0);       
         caj.guardarDatos();      
-        CajeroServidor cs = new CajeroServidor();
-        Thread t1 = new Thread(cs);
-        t1.start();
     }
       
     @SuppressWarnings("unchecked")
@@ -295,7 +285,7 @@ public class IniciarSesion extends javax.swing.JFrame {
                int cuenta = Integer.parseInt(ncuenta.getText());
                int pass = Integer.parseInt(nip.getText());
                boolean correcto =caj.ingresar(cuenta,pass);
-
+               
                if(correcto){
                 VentanaPrincipal obj = new VentanaPrincipal(caj.devolverUsuario());
                 obj.setVisible(true);

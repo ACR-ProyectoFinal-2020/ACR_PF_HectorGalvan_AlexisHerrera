@@ -34,9 +34,6 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         setLocationRelativeTo(null); 
         setTitle("Bienvenido");
         setDefaultCloseOperation(0);
-        CajeroServidor cs = new CajeroServidor();
-        Thread t1 = new Thread(cs);
-        t1.start();
         us=new Usuario();  
         us.setNombre(u.getNombre());
         us.setNoTarjeta(u.getNoTarjeta());
@@ -240,7 +237,8 @@ public class VentanaPrincipal extends javax.swing.JFrame {
 
     private void salirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_salirActionPerformed
         try{
-        JOptionPane.showMessageDialog(null, "Saldo restante: "+us.getSaldo()+"\nQue tenga un buen día");
+        JOptionPane.showMessageDialog(null, "Saldo restante: "+caj.consultar(us)+"\nQue tenga un buen día");
+        us.setSaldo(caj.consultar(us));
         IniciarSesion obj = new IniciarSesion(us);
         obj.setVisible(true);
         dispose();
@@ -289,15 +287,16 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         try{
             saldoLocal = Float.parseFloat(depositarMostrar);
             if(saldoLocal<=8000&&saldoLocal>=1){
-                us.setSaldo(us.getSaldo()+saldoLocal);
-                //caj.depositar(saldoLocal);
-                JOptionPane.showMessageDialog(null, "Nuevo saldo: "+us.getSaldo(),"AVISO",JOptionPane.WARNING_MESSAGE);
+                caj.depositar(saldoLocal,us);
+                JOptionPane.showMessageDialog(null, "Nuevo saldo: "+caj.consultar(us),"AVISO",JOptionPane.WARNING_MESSAGE);
             }else{
                 JOptionPane.showMessageDialog(null, "Deposita cantidades menores a $8000\n y mayores a cero","Alerta",JOptionPane.WARNING_MESSAGE);
             }
         }catch(NumberFormatException e){
           JOptionPane.showMessageDialog(null, "Ingresa solo numeros","Alerta",JOptionPane.WARNING_MESSAGE);
-        }  
+        }catch (RemoteException ex) {  
+                Logger.getLogger(VentanaPrincipal.class.getName()).log(Level.SEVERE, null, ex);
+            }  
         }
     }//GEN-LAST:event_depositarActionPerformed
 
@@ -317,29 +316,31 @@ public class VentanaPrincipal extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "No puedes retirar negativos","Alerta",JOptionPane.WARNING_MESSAGE);
         }else{
             try{
-                if(saldoLocal<=8000&&saldoLocal>=1 && (us.getSaldo()-saldoLocal)>=0){
-                us.setSaldo(us.getSaldo()-saldoLocal);
-                //caj.retirar(saldoLocal);
-                JOptionPane.showMessageDialog(null, "Nuevo saldo: "+us.getSaldo(),"AVISO",JOptionPane.WARNING_MESSAGE);
+                if(saldoLocal<=8000&&saldoLocal>=1 && (caj.consultar(us)-saldoLocal)>=0){
+                caj.retirar(saldoLocal,us);
+                JOptionPane.showMessageDialog(null, "Nuevo saldo: "+caj.consultar(us),"AVISO",JOptionPane.WARNING_MESSAGE);
                 }else{
                     JOptionPane.showMessageDialog(null, "No cuentas con saldo suficiente","Alerta",JOptionPane.WARNING_MESSAGE);
                 }
                 }catch(NumberFormatException e){
                 JOptionPane.showMessageDialog(null, "Ingresa solo numeros","Alerta",JOptionPane.WARNING_MESSAGE);
-               }
+               } catch (RemoteException ex) {
+                Logger.getLogger(VentanaPrincipal.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
     }//GEN-LAST:event_retirarActionPerformed
 
     private void consultarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_consultarActionPerformed
         ImageIcon icon = new ImageIcon("src/Imagenes/consultar.png");
-        /*float saldo=0;
+        float saldo=0;
         try {
-            saldo = caj.consultar();
+            saldo = caj.consultar(us);
+        JOptionPane.showMessageDialog(null, "Tu saldo es: "+saldo,"Saldo disponible",JOptionPane.DEFAULT_OPTION, icon);
         } catch (RemoteException ex) {
             Logger.getLogger(VentanaPrincipal.class.getName()).log(Level.SEVERE, null, ex);
-        }*/
-        JOptionPane.showMessageDialog(null, "Tu saldo es: "+us.getSaldo(),"Saldo disponible",JOptionPane.DEFAULT_OPTION, icon);
+        }
     }//GEN-LAST:event_consultarActionPerformed
+    
     public boolean ceros(char caracteres[]){
         boolean ceros = false;
         for(int i=0; i<caracteres.length;i++){

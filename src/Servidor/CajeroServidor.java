@@ -38,7 +38,7 @@ public class CajeroServidor extends UnicastRemoteObject implements Cajero, Runna
     @Override
     public void modificarDatabase(Usuario u) throws RemoteException {
         for(Usuario usuario:database){
-             if(u.getNoTarjeta()==usuario.getNoTarjeta()){
+             if(usuario.getNoTarjeta()==u.getNoTarjeta()){
                  usuario.setSaldo(u.getSaldo());
                  guardarDatos();
                  break;
@@ -120,28 +120,47 @@ public class CajeroServidor extends UnicastRemoteObject implements Cajero, Runna
     }
 
     @Override
-    public void depositar(float cantidad) throws RemoteException {
-        user.setSaldo(user.getSaldo()+cantidad);
+    public void depositar(float cantidad,Usuario us) throws RemoteException {  
+        for (Usuario u : database) {
+            if(u.getNoTarjeta()==us.getNoTarjeta()){
+                u.setSaldo(u.getSaldo()+cantidad);
+            }
+        }    
     }
 
     @Override
-    public void retirar(float cantidad) throws RemoteException {
-        user.setSaldo(user.getSaldo()-cantidad);         
+    public void retirar(float cantidad,Usuario us) throws RemoteException {
+        for (Usuario u : database) {
+            if(u.getNoTarjeta()==us.getNoTarjeta()){
+                u.setSaldo(u.getSaldo()-cantidad);
+            }
+        }        
     }
 
     @Override
-    public float consultar() throws RemoteException {
-        return user.getSaldo();
+    public float consultar(Usuario us) throws RemoteException {
+        float saldo = 0;
+         for (Usuario u : database) {
+            if(u.getNoTarjeta()==us.getNoTarjeta()){
+                saldo=u.getSaldo();
+            }
+        }    
+        return saldo;
     }
 
     @Override
     public boolean edoCuenta(Usuario usr) throws RemoteException {
         File file = new File(PATH+"Estado de cuenta de_"+usr.getNombre()+".txt");
         PrintWriter salida = null;
-        
+        float saldo = 0;
+         for (Usuario u : database) {
+            if(u.getNoTarjeta()==usr.getNoTarjeta()){
+                saldo=u.getSaldo();
+            }
+        }   
         try {
             salida = new PrintWriter(new BufferedWriter(new FileWriter(PATH+"Estado de cuenta de_"+usr.getNombre()+".txt")));
-            salida.println("El saldo de "+usr.getNombre()+" es: "+ usr.getSaldo());
+            salida.println("El saldo de "+usr.getNombre()+" es: "+ saldo);
             salida.close();
         } catch (IOException e) {System.out.println(e.getMessage());} finally {
             salida.close();
@@ -153,13 +172,17 @@ public class CajeroServidor extends UnicastRemoteObject implements Cajero, Runna
     public Usuario devolverUsuario() throws RemoteException {
        return this.user;
     }
+    public static void main(String aegs[]) throws RemoteException{
+        CajeroServidor cs = new CajeroServidor();
+        Thread t1 = new Thread(cs);
+        t1.start();
+    }
     
     @Override
     public void run() {
         try{
             String dirIP=(InetAddress.getLocalHost()).toString();
-            System.out.println("Escuchando en.."+dirIP+":"+puerto);
-            
+            System.out.println("Escuchando en.."+dirIP+":"+puerto);      
             registry = LocateRegistry.createRegistry(puerto);
             registry.bind("servidor", (Cajero) this);
         }catch(UnknownHostException | AlreadyBoundException | RemoteException e){
