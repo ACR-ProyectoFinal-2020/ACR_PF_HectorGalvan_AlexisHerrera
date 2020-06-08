@@ -327,7 +327,6 @@ public class IniciarSesion extends javax.swing.JFrame {
 
     private void ncuentaKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_ncuentaKeyTyped
         char caracter = evt.getKeyChar();
-
         if(Character.isDigit(caracter) || caracter == '\b'){
             if (ncuenta.getText().length()== 8){
             evt.consume();
@@ -342,7 +341,6 @@ public class IniciarSesion extends javax.swing.JFrame {
     }//GEN-LAST:event_ncuentaKeyTyped
 
     private void salirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_salirActionPerformed
-         //this.dispose();
          System.exit(0);
     }//GEN-LAST:event_salirActionPerformed
 
