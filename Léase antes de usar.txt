@@ -1,4 +1,6 @@
 Hacer un Clean and Build antes de ejecutar.
 Ejecutar primero CajeroServidor y luego los clientes deseados
 de la clase JFrame IniciarSesion.
+Consultar el archivo Database.txt para ver datos de usuarios para ingresar.
 Ignorar error (si aparece en consola) de deprecated API
+Si el usuario se percata de algún error (si surge), comunicarlo al creador.
