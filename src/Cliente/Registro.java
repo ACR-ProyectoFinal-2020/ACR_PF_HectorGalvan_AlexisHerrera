@@ -268,11 +268,21 @@ public class Registro extends javax.swing.JFrame {
 
     private void registrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_registrarActionPerformed
         String name=nombre.getText();
+        Usuario u = null;
+        try{
         int cuenta = Integer.parseInt(ncuenta.getText());
         int pass = Integer.parseInt(nip.getText());
-        Usuario u=new Usuario(name,cuenta,pass,0);
+        u=new Usuario(name,cuenta,pass,0);
+        }catch(NumberFormatException e){}
+        
         try {
-            if(caj.registrar(u)){
+            if("".equals(nombre.getText()) || "".equals(ncuenta.getText()) || "".equals(nip.getText())){
+                JOptionPane.showMessageDialog(null, "Completa todos los recuadros");
+            }else if(ncuenta.getText().length()!=8 || nip.getText().length()!=4 ){
+                JOptionPane.showMessageDialog(null, "Numero de cuenta o nip no tienen los suficientes números");
+            }else if(!(nombre.getText().length()>=4 && nombre.getText().length()<=45)){
+                JOptionPane.showMessageDialog(null, "Tu nombre debe tener mas de 4 letras y menos de 45");
+            }else if(caj.registrar(u)){
                 JOptionPane.showMessageDialog(null, "Se registró el usuario "+name);
                 IniciarSesion obj = new IniciarSesion(true);
                 obj.setVisible(true);
